@@ -10,6 +10,12 @@ class AuthService {
     //FirebaseUser 객체 데이터를 필요한것만 뽑아서 내 User 객체에 정리해서 담는다.
     return user != null ? User(uid: user.uid) : null;
   }
+
+  // auth change user stream
+  Stream<User> get user {
+    return _auth.onAuthStateChanged.map(_userFromFirebaseUser);
+  }
+  
   // sign in anon
   Future signInAnon() async {
     try {
