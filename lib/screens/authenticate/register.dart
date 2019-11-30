@@ -1,15 +1,15 @@
 import 'package:brew_crew/services/auth.dart';
 import 'package:flutter/material.dart';
 /*
-sign in 레이아웃 위젯.
+Sign up 레이아웃 위젯.
 */
 
-class SignIn extends StatefulWidget {
+class Register extends StatefulWidget {
   @override
-  _SignInState createState() => _SignInState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _SignInState extends State<SignIn> {
+class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   //text field state
   String email = "";
@@ -22,7 +22,7 @@ class _SignInState extends State<SignIn> {
       appBar: AppBar(
         backgroundColor: Colors.brown[400],
         elevation: 0.0,
-        title: Text("Sign in to Brew Crew"),
+        title: Text("Sign up to Brew Crew"),
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
@@ -39,22 +39,15 @@ class _SignInState extends State<SignIn> {
                   });
                 },
               ),
-              SizedBox(
-                height: 20,
-              ),
               TextFormField(
-                obscureText: true,
                 onChanged: (value) {
                   setState(() {
                     password = value;
                   });
                 },
               ),
-              SizedBox(
-                height: 20,
-              ),
               RaisedButton(
-                child: Text("Sign in"),
+                child: Text("Register"),
                 onPressed: () async {
 /*
                   //access service function
