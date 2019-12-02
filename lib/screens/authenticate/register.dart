@@ -14,6 +14,9 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
+  String error = "";
+
   //text field state
   String email = "";
   String password = "";
@@ -39,12 +42,14 @@ class _RegisterState extends State<Register> {
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
         child: Form(
+          key: _formKey,
           child: Column(
             children: <Widget>[
               SizedBox(
                 height: 20,
               ),
               TextFormField(
+                validator: (val) => val.isEmpty ? "Email 입력란이 비어있습니다!" : null,
                 onChanged: (value) {
                   setState(() {
                     email = value;
@@ -55,6 +60,9 @@ class _RegisterState extends State<Register> {
                 height: 20,
               ),
               TextFormField(
+                obscureText: true,
+                validator: (val) =>
+                    val.length < 6 ? "Enter a password 6+ chars long" : null,
                 onChanged: (value) {
                   setState(() {
                     password = value;
@@ -65,25 +73,43 @@ class _RegisterState extends State<Register> {
                 height: 20,
               ),
               RaisedButton(
-                child: Text("Register"),
+                color: Colors.brown,
+                child: Text("Register",style: TextStyle(color: Colors.white),),
                 onPressed: () async {
-/*
-                  //access service function
-                  dynamic result = await _auth.signInAnon();
+                  if (_formKey.currentState.validate()) {
+                    //access service function
+                    dynamic result = await _auth.registerWithEmailAndPassword(
+                        email, password);
 
-                  if (result == null) {
-                    print("error signing in");
-                  } else {
-                    print("signed in");
-                    print(result.uid);
+                    if (result == null) {
+                      setState(() => error = "올바르게 email을 적었는지 확인해주세요!");
+                    }
+                    print(email);
+                    print(password);
                   }
-                  */
                 },
               ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                error,
+                style: TextStyle(color: Colors.red, fontSize: 14),
+              )
             ],
           ),
         ),
       ),
     );
+  }
+
+  void accessServiceWithAnonymous() async {
+    dynamic result = await _auth.signInAnon();
+    if (result == null) {
+      print("error signing in");
+    } else {
+      print("signed in");
+      print(result.uid);
+    }
   }
 }
