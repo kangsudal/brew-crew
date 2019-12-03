@@ -17,6 +17,8 @@ class _SignInState extends State<SignIn> {
   //text field state
   String email = "";
   String password = "";
+  final _formKey = GlobalKey<FormState>();
+  String error = "";
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +41,14 @@ class _SignInState extends State<SignIn> {
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
         child: Form(
+          key: _formKey,
           child: Column(
             children: <Widget>[
               SizedBox(
                 height: 20,
               ),
               TextFormField(
+                validator: (val) => val.isEmpty ? "Email 입력란이 비어있습니다!" : null,
                 onChanged: (value) {
                   setState(() {
                     email = value;
@@ -56,6 +60,8 @@ class _SignInState extends State<SignIn> {
               ),
               TextFormField(
                 obscureText: true,
+                validator: (val) =>
+                    val.length < 6 ? "Enter a password 6+ chars long" : null,
                 onChanged: (value) {
                   setState(() {
                     password = value;
@@ -68,19 +74,28 @@ class _SignInState extends State<SignIn> {
               RaisedButton(
                 child: Text("Sign in"),
                 onPressed: () async {
-/*
-                  //access service function
-                  dynamic result = await _auth.signInAnon();
+                  if (_formKey.currentState.validate()) {
+                    //access service function
+                    dynamic result = await _auth.signInWithEmailAndPassword(email,password);
 
-                  if (result == null) {
-                    print("error signing in");
-                  } else {
-                    print("signed in");
-                    print(result.uid);
+                    if (result == null) {
+                      setState(() {
+                        error = "could not sign in with those credentials.";
+                      });
+                    } else {
+                      print("signed in");
+                      print(result.uid);
+                    }
                   }
-                  */
                 },
               ),
+              SizedBox(
+                height: 20,
+              ),
+              Text(
+                error,
+                style: TextStyle(color: Colors.red, fontSize: 14),
+              )
             ],
           ),
         ),
