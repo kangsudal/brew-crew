@@ -49,6 +49,17 @@ class _RegisterState extends State<Register> {
                 height: 20,
               ),
               TextFormField(
+                decoration: InputDecoration(
+                  hintText: "Email",
+                  fillColor: Colors.white,
+                  filled: true,
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white, width: 2.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.pink, width: 2.0),
+                  ),
+                ),
                 validator: (val) => val.isEmpty ? "Email 입력란이 비어있습니다!" : null,
                 onChanged: (value) {
                   setState(() {
@@ -74,7 +85,10 @@ class _RegisterState extends State<Register> {
               ),
               RaisedButton(
                 color: Colors.brown,
-                child: Text("Register",style: TextStyle(color: Colors.white),),
+                child: Text(
+                  "Register",
+                  style: TextStyle(color: Colors.white),
+                ),
                 onPressed: () async {
                   if (_formKey.currentState.validate()) {
                     //access service function
