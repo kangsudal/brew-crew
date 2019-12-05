@@ -1,5 +1,6 @@
 import 'package:brew_crew/services/auth.dart';
 import 'package:brew_crew/shared/constants.dart';
+import 'package:brew_crew/shared/loading.dart';
 import 'package:flutter/material.dart';
 /*
 Sign up 레이아웃 위젯.
@@ -16,15 +17,16 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
-  String error = "";
+  bool loading = false;
 
   //text field state
   String email = "";
   String password = "";
+  String error = "";
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loading ? Loading() : Scaffold(
       backgroundColor: Colors.brown[100],
       appBar: AppBar(
         backgroundColor: Colors.brown[400],
@@ -85,12 +87,18 @@ class _RegisterState extends State<Register> {
                   ),
                   onPressed: () async {
                     if (_formKey.currentState.validate()) {
+                      setState(() {
+                        loading = true;
+                      });
                       //access service function
                       dynamic result = await _auth.registerWithEmailAndPassword(
                           email, password);
 
                       if (result == null) {
-                        setState(() => error = "올바르게 email을 적었는지 확인해주세요!");
+                        setState(() {
+                          error = "올바르게 email을 적었는지 확인해주세요!";
+                          loading = false;
+                        });
                       }
                       print(email);
                       print(password);

@@ -1,5 +1,6 @@
 import 'package:brew_crew/services/auth.dart';
 import 'package:brew_crew/shared/constants.dart';
+import 'package:brew_crew/shared/loading.dart';
 import 'package:flutter/material.dart';
 /*
 sign in 레이아웃 위젯.
@@ -15,15 +16,17 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
+  bool loading = false;
+
   //text field state
   String email = "";
   String password = "";
-  final _formKey = GlobalKey<FormState>();
   String error = "";
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loading ? Loading() : Scaffold(
       backgroundColor: Colors.brown[100],
       appBar: AppBar(
         backgroundColor: Colors.brown[400],
@@ -63,7 +66,8 @@ class _SignInState extends State<SignIn> {
                 ),
                 TextFormField(
                   obscureText: true,
-                  decoration: textInputDecoration.copyWith(hintText: "Password"),
+                  decoration:
+                      textInputDecoration.copyWith(hintText: "Password"),
                   validator: (val) =>
                       val.length < 6 ? "Enter a password 6+ chars long" : null,
                   onChanged: (value) {
@@ -79,13 +83,19 @@ class _SignInState extends State<SignIn> {
                   child: Text("Sign in"),
                   onPressed: () async {
                     if (_formKey.currentState.validate()) {
+                      setState(() {
+                        loading = true;
+                      });
                       //access service function
-                      dynamic result =
-                          await _auth.signInWithEmailAndPassword(email, password);
+                      dynamic result = await _auth.signInWithEmailAndPassword(
+                          email, password);
 
                       if (result == null) {
                         setState(() {
                           error = "could not sign in with those credentials.";
+                          setState(() {
+                            loading = false;
+                          });
                         });
                       } else {
                         print("signed in");
