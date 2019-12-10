@@ -1,6 +1,6 @@
 import 'package:brew_crew/models/brew.dart';
 import 'package:flutter/material.dart';
-
+/*BrewList의 하위 tile위젯*/
 class BrewTile extends StatelessWidget {
 
   final Brew brew;

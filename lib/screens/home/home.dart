@@ -11,6 +11,17 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    void _showSettingsPanel(){
+      showModalBottomSheet(
+        builder: (BuildContext context) {
+          return Container(
+            padding: EdgeInsets.symmetric(vertical: 20, horizontal: 60),
+            child: Text("bottom sheet"),
+          );
+        },
+       context: context);
+    }
     return StreamProvider<List<Brew>>.value(
       value: DatabaseService().brews, //이 stream이 Scaffold 위젯을 감싼다. 하위 위젯트리에서 data를 access할수있따
       child: Scaffold(
@@ -25,6 +36,11 @@ class Home extends StatelessWidget {
                 onPressed: () async {
                   await _auth.signOut();
                 },
+              ),
+              FlatButton.icon(
+                icon: Icon(Icons.settings),
+                label: Text("settings"),
+                onPressed: () => _showSettingsPanel(),
               )
             ],
           ),
