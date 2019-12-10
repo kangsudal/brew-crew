@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-
+/* Form 에서 입력 decoration. 흰색. 선택하면 핑크색 테두리생김 */
 const textInputDecoration = InputDecoration(
   // hintText: "Email",
   fillColor: Colors.white,
