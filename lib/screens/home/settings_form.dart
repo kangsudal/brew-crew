@@ -13,7 +13,7 @@ class _SettingsFormState extends State<SettingsForm> {
   //form values
   String _currentName;
   String _currentSugars;
-  String _currentStrength;
+  int _currentStrength;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class _SettingsFormState extends State<SettingsForm> {
             height: 20,
           ),
           DropdownButtonFormField(
-            items: sugars.map((sugar){
+            items: sugars.map((sugar) {
               return DropdownMenuItem(
                 value: sugar,
                 child: Text("$sugar sugars"),
@@ -46,6 +46,19 @@ class _SettingsFormState extends State<SettingsForm> {
             onChanged: (val) => setState(() => _currentSugars = val),
             value: _currentSugars ?? "0",
             decoration: textInputDecoration,
+          ),
+          Slider(
+            onChanged: (double value) {
+              setState(() {
+                _currentStrength = value.round();
+              });
+            },
+            value: (_currentStrength ?? 100).toDouble(),
+            min: 100,
+            max: 900,
+            divisions: 8,
+            activeColor: Colors.brown[_currentStrength ?? 100],
+            inactiveColor: Colors.brown[_currentStrength ?? 100],
           ),
           RaisedButton(
             color: Colors.pink,
