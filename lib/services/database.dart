@@ -1,4 +1,5 @@
 import 'package:brew_crew/models/brew.dart';
+import 'package:brew_crew/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService {
@@ -27,9 +28,23 @@ class DatabaseService {
     }).toList();
   }
 
+  //userData from snapshot
+  UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
+    return UserData(
+      uid: uid,
+      name: snapshot.data['name'],
+      sugars: snapshot.data["sugars"],
+      strength: snapshot.data["strength"],
+    );
+  }
+
   //get brews stream
   Stream<List<Brew>> get brews {
     // cloud firestore에 저장된 모든 member를 불러오는 데이터
     return brewCollection.snapshots().map(_brewListFromSnapshot);
+  }
+
+  Stream<UserData> get userData {
+    return brewCollection.document(uid).snapshots().map(_userDataFromSnapshot);
   }
 }
