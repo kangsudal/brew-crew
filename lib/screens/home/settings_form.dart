@@ -9,6 +9,10 @@ import 'package:provider/provider.dart';
   #25- Using a Stream Builder
     - 설정 form이 Listen data & access data 할 수 있게 연결 작업
     - 출입구 뚫어놓기! firestore에 있는 실데이터를 form에 연결
+
+  #26 - Updating User Data
+    - 데이터 입력 & Update 버튼 누르면 firestore에 데이터 업데이트  (updateUserData)
+    - 변한 값 UI에 반영
 */
 class SettingsForm extends StatefulWidget {
   @override
@@ -31,7 +35,8 @@ class _SettingsFormState extends State<SettingsForm> {
     return StreamBuilder<UserData>(
         stream: DatabaseService(uid: user.uid).userData,
         builder: (context, snapshot) {
-          if (snapshot.hasData) { //if we have data
+          if (snapshot.hasData) {
+            //if we have data
             UserData userData = snapshot.data;
             return Form(
               key: _formKey,
@@ -75,8 +80,10 @@ class _SettingsFormState extends State<SettingsForm> {
                     min: 100,
                     max: 900,
                     divisions: 8,
-                    activeColor: Colors.brown[_currentStrength ?? userData.strength],
-                    inactiveColor: Colors.brown[_currentStrength ?? userData.strength],
+                    activeColor:
+                        Colors.brown[_currentStrength ?? userData.strength],
+                    inactiveColor:
+                        Colors.brown[_currentStrength ?? userData.strength],
                   ),
                   RaisedButton(
                     color: Colors.pink,
@@ -85,9 +92,13 @@ class _SettingsFormState extends State<SettingsForm> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () async {
-                      print(_currentName);
-                      print(_currentStrength);
-                      print(_currentSugars);
+                      if (_formKey.currentState.validate()) {
+                        await DatabaseService(uid: user.uid).updateUserData(
+                            _currentSugars ?? userData.sugars,
+                            _currentName ?? userData.name,
+                            _currentStrength ?? userData.strength);
+                        Navigator.pop(context);
+                      }
                     },
                   )
                 ],

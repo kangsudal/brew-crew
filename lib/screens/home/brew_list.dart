@@ -14,7 +14,7 @@ class BrewList extends StatefulWidget {
 class _BrewListState extends State<BrewList> {
   @override
   Widget build(BuildContext context) {
-    final brews = Provider.of<List<Brew>>(context);
+    final brews = Provider.of<List<Brew>>(context) ?? []; //List가 아직 loaded 안됐을때
 
     return ListView.builder(
       itemCount: brews.length,
