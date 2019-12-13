@@ -1,6 +1,8 @@
 import 'package:brew_crew/models/brew.dart';
 import 'package:flutter/material.dart';
-/*BrewList의 하위 tile위젯*/
+/*BrewList의 하위 tile위젯
+#27 - Finishing Touches : 커피컵 테두리 png 이미지 추가
+*/
 class BrewTile extends StatelessWidget {
 
   final Brew brew;
@@ -16,6 +18,7 @@ class BrewTile extends StatelessWidget {
           leading: CircleAvatar(
             radius: 25,
             backgroundColor: Colors.brown[brew.strength],
+            backgroundImage: AssetImage('assets/coffee_icon.png'),
           ),
           title: Text(brew.name),
           subtitle: Text("Takes ${brew.sugars} sugar(s)"),
