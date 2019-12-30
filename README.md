@@ -1,16 +1,12 @@
 # brew_crew
 
-A new Flutter project.
+firebase와 provider를 함께 쓰는 코드를 연습하고싶어서 유튜브 튜토리얼을 따라 공부한 프로젝트
+개인 선호 커피 제조법(설탕 양, 커피 강도, 내 커피이름)을 저장하는 어플
 
-## Getting Started
+공부내용:
+https://github.com/kangsudal/brew-crew/issues/3
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+결과영상:
+https://github.com/kangsudal/brew-crew/files/3960206/brew_crew.zip
